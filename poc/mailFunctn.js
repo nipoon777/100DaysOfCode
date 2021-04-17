@@ -46,7 +46,7 @@ function mailFunctn ( topicList ){
             */
             const mailOptions = {
                 from : "donta.nipoon7@gmail.com",
-                to : "nipoon.donta7@gmail.com",
+                to : "siaananyasaxena16@gmail.com",
                 subject : `Day ${count} of Code`,
                 text : `Hello,
         Good Morning! Let's Code 

@@ -49,6 +49,8 @@ const link = "https://leetcode.com/problemset/algorithms/";
 
     mailFunctn(topicList);
 
+    browserInstance.close();
+
   } catch (err) {
     console.log(err);
   }
