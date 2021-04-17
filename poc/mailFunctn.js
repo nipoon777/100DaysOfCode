@@ -10,19 +10,6 @@ const fs = require("fs");
 const path = require("path");
 
 
-
-let topicList = ["Arrays",
-  "Strings",
-  "LinkedList",
-  "Doubly Linked List",
-  "Dynamic Programming",
-  "Recursion",
-  "HashMap",
-  "HashSet",
-  "Graph",
-  "Trees"];
-
-mailFunctn(topicList);
 var message;
 
 function mailFunctn ( topicList ){
@@ -53,9 +40,7 @@ function mailFunctn ( topicList ){
                 Level : ${message[i].level}
                 `
             }
-            /* console.log(count);
-            console.log(mailMessage);
-            console.log("```````````````````````````````````````````````````````````"); */
+            
             /* 
                 Set Mail Options
             */
@@ -64,11 +49,13 @@ function mailFunctn ( topicList ){
                 to : "nipoon.donta7@gmail.com",
                 subject : `Day ${count} of Code`,
                 text : `Hello,
-                Good Morning! Let's Code `+ 
+        Good Morning! Let's Code 
+                                `+ 
                 mailMessage +
                 `
-                Thanks & Regards,
-                Code Buddy
+
+        Thanks & Regards,
+        Code Buddy
                 `
             };
 
@@ -96,9 +83,9 @@ function mailFunctn ( topicList ){
             count++;
         }
 
-     });
-    
+     });   
 }
+
 
 module.exports = {
     mailFunctn : mailFunctn
