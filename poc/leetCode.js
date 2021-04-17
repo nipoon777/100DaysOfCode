@@ -9,6 +9,7 @@ const cheerio = require("cheerio");
 const fs = require("fs");
 const { makeFiles } = require("./makeFiles");
 const { getQuestions } = require("./getQuestions");
+const { mailFunctn } = require("./mailFunctn");
 
 let topicList = ["Arrays",
   "Strings",
@@ -45,6 +46,8 @@ const link = "https://leetcode.com/problemset/algorithms/";
     for(let i = 0 ; i < topicList.length ; i++ ){
       await getQuestions(".form-control.list-search-bar",topicList[i], newPage );
     }
+
+    mailFunctn(topicList);
 
   } catch (err) {
     console.log(err);
