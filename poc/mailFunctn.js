@@ -1,10 +1,15 @@
+/* 
+    These are all the Imports required for the code
+
+*/
+
 const nodemailer = require("nodemailer");
 const { email, password } = require("../mailconfig.js");
-
 const cron = require("node-cron");
-
 const fs = require("fs");
 const path = require("path");
+
+
 
 let topicList = ["Arrays",
   "Strings",
@@ -16,87 +21,84 @@ let topicList = ["Arrays",
   "HashSet",
   "Graph",
   "Trees"];
+
 mailFunctn(topicList);
 var message;
 
 function mailFunctn ( topicList ){
-    message = [];
-    topicList.forEach(topicName => {
+    
+    let count = 0;
+    cron.schedule("1-10 * * * * *", () => {
+
+        if( count < 10 ){
+            message = [];
+            topicList.forEach(topicName => {
         
-        let data = fs.readFileSync(path.join(__dirname,topicName, topicName +".json"));
+                let data = fs.readFileSync(path.join(__dirname,topicName, topicName +".json"));
+                let dataJSON = JSON.parse(data);
+                
+                message.push({
+                    name : dataJSON[count].questionName,
+                    link : dataJSON[count].questionLink,
+                    solution : dataJSON[count].solutionLink,
+                    level : dataJSON[count].questionLevel
+                })
+            });
+            let mailMessage = "";
+            for(let i = 0 ; i < message.length ; i++){
+                mailMessage += `
+                Name of the question : ${message[i].name}
+                Link to question : ${message[i].link}
+                Link to Solution : ${ message[i].solution}
+                Level : ${message[i].level}
+                `
+            }
+            /* console.log(count);
+            console.log(mailMessage);
+            console.log("```````````````````````````````````````````````````````````"); */
+            /* 
+                Set Mail Options
+            */
+            const mailOptions = {
+                from : "donta.nipoon7@gmail.com",
+                to : "nipoon.donta7@gmail.com",
+                subject : `Day ${count} of Code`,
+                text : `Hello,
+                Good Morning! Let's Code `+ 
+                mailMessage +
+                `
+                Thanks & Regards,
+                Code Buddy
+                `
+            };
 
-        let dataJSON = JSON.parse(data);
-        
-        message.push({
-            name : dataJSON[0].questionName,
-            link : dataJSON[0].questionLink,
-            solution : dataJSON[0].solutionLink,
-            level : dataJSON[0].questionLevel
-        })
-        // console.log("Topic Name" + topicName);
-    });
-    // console.log(message);
+            /* 
+                Set Transport configuartion
+            */
 
-}
-
-let mailMessage = "";
-
-for(let i = 0 ; i < message.length ; i++){
-    mailMessage += `
-    Name of the question : ${message[i].name}
-    Link to question : ${message[i].link}
-    Link to Solution : ${ message[i].solution}
-    Level : ${message[i].level}
-    `
-}
-let count = 1;
-let task = cron.schedule("1-10 * * * * * ", () => {
-    console.log(count);
-    count++;
-});
-
-// console.log(mailMessage);
-
-/* 
-    Set Mail Options
- */
-const mailOptions = {
-    from : "donta.nipoon7@gmail.com",
-    to : "nipoon.donta7@gmail.com",
-    subject : "Day 1 of Code",
-    text : `Hello,
-    Good Morning! Let's Code `+ 
-    mailMessage +
-    `
-    Thanks & Regards,
-    Code Buddy
-    `
-};
-
-/* 
-    Set Transport configuartion
-*/
-
-const transporter = nodemailer.createTransport(
-    {
-        service : "gmail",
-        auth : {
-            user : email,
-            pass : password
+            const transporter = nodemailer.createTransport(
+                {
+                    service : "gmail",
+                    auth : {
+                        user : email,
+                        pass : password
+                    }
+                }
+            );
+            
+            transporter.sendMail(mailOptions, (err, info) => {
+                if( err ){
+                    console.log(err);
+                }else{
+                    console.log("Email Send : " + info.response);
+                }
+            });
+            count++;
         }
-    }
-);
 
-
-/* Send email */
-
-/* transporter.sendMail(mailOptions, (err, info) => {
-    if( err ){
-        console.log(err);
-    }else{
-        console.log("Email Send : " + info.response);
-    }
-}); */
+     });
+    
+}
 
 module.exports = {
     mailFunctn : mailFunctn
