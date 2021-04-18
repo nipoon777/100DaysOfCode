@@ -10,11 +10,11 @@ const cron = require("node-cron");
 const fs = require("fs");
 const path = require("path");
 
-
 var message;
 
-
-
+/*
+    Schedules emails and sends them
+ */
 function mailFunctn(topicList) {
 
     let count = 0;
