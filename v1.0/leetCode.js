@@ -1,7 +1,6 @@
 /*  import all the requirements
   - 1. puppeteer for Automation
-  - 2. cheerio and request to extract Data
-  - 3. To manipulate in File System */
+ */
 
 const puppeteer = require("puppeteer");
 const { getQuestions } = require("./getQuestions");
