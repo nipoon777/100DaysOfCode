@@ -47,15 +47,15 @@ The user is notified over email about the 10 questions to practice daily.
 
     node-cron module is used to schedule the mailing service
 
-    ┌────────────── second (optional)
-    │ ┌──────────── minute
-    │ │ ┌────────── hour
-    │ │ │ ┌──────── day of month
-    │ │ │ │ ┌────── month
-    │ │ │ │ │ ┌──── day of week
-    │ │ │ │ │ │
-    │ │ │ │ │ │
-    * * * * * *
+        ┌────────────── second (optional)
+        │ ┌──────────── minute
+        │ │ ┌────────── hour
+        │ │ │ ┌──────── day of month
+        │ │ │ │ ┌────── month
+        │ │ │ │ │ ┌──── day of week
+        │ │ │ │ │ │
+        │ │ │ │ │ │
+        * * * * * *
 
 4. makeFiles(fileName)
     -- makeFiles.js
