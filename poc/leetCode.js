@@ -4,10 +4,6 @@
   - 3. To manipulate in File System */
 
 const puppeteer = require("puppeteer");
-const request = require("request");
-const cheerio = require("cheerio");
-const fs = require("fs");
-const { makeFiles } = require("./makeFiles");
 const { getQuestions } = require("./getQuestions");
 const { mailFunctn } = require("./mailFunctn");
 
@@ -24,10 +20,12 @@ let topicList = ["Arrays",
 
 const link = "https://leetcode.com/problemset/algorithms/";
 
-
 (async function() {
   try {
 
+    /* 
+      Iniatiate the Browser
+    */
     const browserInstance = await puppeteer.launch({
       headless: false,
       defaultViewport: null,
@@ -38,7 +36,6 @@ const link = "https://leetcode.com/problemset/algorithms/";
     await newPage.goto(link);
     await newPage.waitForSelector(".form-control.list-search-bar", { visible: true });
 
-
     /* Loop Around the Topic Array And run the makeFiles 
     which will make excel files function 
     to get the question name, Link, Level of Difficulty */
@@ -46,9 +43,12 @@ const link = "https://leetcode.com/problemset/algorithms/";
     for(let i = 0 ; i < topicList.length ; i++ ){
       await getQuestions(".form-control.list-search-bar",topicList[i], newPage );
     }
-
+    /* 
+      The mail Function sends Scheduled mails to the user
+      The scheduling is dependent on user preference
+    
+    */
     mailFunctn(topicList);
-
     browserInstance.close();
 
   } catch (err) {

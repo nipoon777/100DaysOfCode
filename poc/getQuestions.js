@@ -6,8 +6,15 @@ I have to collected the topic Information and Make Json files for each Topic */
 
 const { makeFiles } = require("./makeFiles");
 
+/* 
+    Returns a Promises that all the questions will be extracted and Folders
+    And JSON files will be made
+*/
 
 async function getQuestions(selector, topicName, newPage) {
+    /* 
+        List all the questions and wait for selectors
+    */
     await newPage.type(selector, topicName, { delay: 50 });
     await newPage.waitForNavigation({ waitUntil: "networkidle2" });
     await newPage.waitForSelector("td[label='Title']", { visible: true });
@@ -16,7 +23,6 @@ async function getQuestions(selector, topicName, newPage) {
     await newPage.waitForSelector("span.row-selector", { visible: true });
 
     /* Extract the Code Information and Make Folders */
-
     function consoleFn(questionSelector, linkSelector, solutionLink, levelDifficulty){
         let queNames = document.querySelectorAll(questionSelector);
         let queLinks = document.querySelectorAll(linkSelector);
@@ -44,14 +50,17 @@ async function getQuestions(selector, topicName, newPage) {
                 solutionLink : solutionLink
             });
         }
-
         return result;
     }
 
     let topicResult = await newPage.evaluate(consoleFn,"td[label = 'Title']", "td[label = 'Title'] a", "td[label='Solution'] ", "td[label='Difficulty']" );
+  
+    /*
+        This function Makes all the Folders and Files 
+     */
 
     makeFiles(topicName, topicResult);
-
+    
     await newPage.keyboard.down("Control");
     await newPage.keyboard.press("Enter");
     await newPage.keyboard.press("a");
